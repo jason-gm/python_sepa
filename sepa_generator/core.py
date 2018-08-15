@@ -66,7 +66,7 @@ class SEPATransaction:
 
 
 class SEPACreditTransfer:
-    def __init__(self, debtor, currency='EUR', batch=False):
+    def __init__(self, debtor, currency='EUR', batch=False, execution_time=datetime.now(tz=pytz.UTC)):
         self.uuid = uuid4().hex.upper()
         self.payment_id = uuid4().hex.upper()
         self.debtor = debtor  # Account
@@ -75,7 +75,7 @@ class SEPACreditTransfer:
 
         self._ctrl_sum = Amount(Decimal('0.00'))
         self.timestamp = datetime.now(tz=pytz.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
-        self.execution_time = datetime.now(tz=pytz.UTC).strftime("%Y-%m-%d")
+        self.execution_time = execution_time.strftime("%Y-%m-%d")
         self.transactions = []
 
     def add_transaction(self, creditor, amount, purpose, eref, ext_purpose='OTHR', use_structured=True, cref=None):
